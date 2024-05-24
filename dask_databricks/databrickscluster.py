@@ -29,6 +29,13 @@ class DatabricksCluster(Cluster):
                 "Unable to find expected environment variable SPARK_LOCAL_IP. "
                 "Are you running this on a Databricks driver node?"
             )
+        if os.getenv("MASTER") and "local[" in os.getenv("MASTER"):
+            raise EnvironmentError(
+                "You appear to be running dask-databricks on a "
+                "single-node cluster. Dask requires at least one worker node "
+                "in order to function as expected."
+
+            )
         try:
             name = spark.conf.get("spark.databricks.clusterUsageTags.clusterId")
         except AttributeError:
