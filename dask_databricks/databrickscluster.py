@@ -23,13 +23,13 @@ class DatabricksCluster(Cluster):
         loop: Optional[IOLoop] = None,
         asynchronous: bool = False,
     ):
-        self.spark_local_ip = os.getenv("SPARK_LOCAL_IP")
+        self.spark_local_ip = os.environ.get("SPARK_LOCAL_IP")
         if self.spark_local_ip is None:
             raise KeyError(
                 "Unable to find expected environment variable SPARK_LOCAL_IP. "
                 "Are you running this on a Databricks driver node?"
             )
-        if os.getenv("MASTER") and "local[" in os.getenv("MASTER"):
+        if os.environ.get("MASTER") and "local[" in os.environ.get("MASTER"):
             raise EnvironmentError(
                 "You appear to be running dask-databricks on a "
                 "single-node cluster. Dask requires at least one worker node "
