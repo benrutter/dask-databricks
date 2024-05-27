@@ -31,9 +31,9 @@ class DatabricksCluster(Cluster):
             )
         if os.environ.get("MASTER") and "local[" in os.environ.get("MASTER"):
             raise EnvironmentError(
-                "You appear to be running dask-databricks on a "
-                "single-node cluster. Dask requires at least one worker node "
-                "in order to function as expected."
+                "You appear to be trying to run a multi-node Dask cluster on a "
+                "single-node databricks cluster. Maybe you want "
+                "`dask.distributed.LocalCluster().get_client()` instead"
 
             )
         try:
